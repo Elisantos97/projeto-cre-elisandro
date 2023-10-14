@@ -1,0 +1,54 @@
+{% extends "home.html" %}
+{% block title%}home{% endblock %}
+
+{% block content %}
+
+
+
+
+<div clas="container">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Gerir utilizadores</h1>
+
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card-body">
+                <div class="table-responsive">
+                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>nome</th>
+                                <th>email</th>
+                                <th>telefone</th>
+                                <th>telemóvel</th>
+                                <th>nif</th>
+                                <th>data registo</th>
+                                <th>data ultima entrada</th>
+                                
+                            </tr>
+                        </thead>  
+                        <tbody>
+                            {% for cliente in clientes %}
+                            <tr>
+                                <td>{{cliente.get('idCliente')}}</td>
+                                <td>{{cliente.get('nomeCliente')}}</td>
+                                <td>{{cliente.get('emailCliente')}}</td>
+                                <td>{{cliente.get('telefoneCliente')}}</td>
+                                <td>{{cliente.get('telemovelCliente')}}</td>
+                                <td>{{cliente.get('nifCliente')}}</td>
+                                <td>{{cliente.get('data_registo_Cliente')}}</td>
+                                <td>{{cliente.get('data_ultima_entrada_Cliente')}}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>   
+</div>
+
+
+{% endblock %}

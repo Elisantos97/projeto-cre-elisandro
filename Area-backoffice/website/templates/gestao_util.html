@@ -1,0 +1,181 @@
+{% extends "home.html" %}
+{% block title%}home{% endblock %}
+
+{% block content %}
+
+
+
+
+<div clas="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card-body">
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <h4 class="h4 mb-0 text-gray-800">Gerir utilizadores</h4>
+                    <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-toggle="modal" data-target="#mymodal"><i class="fas fa-download fa-sm text-white-50"></i> Adicionar utilizador</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card-body">
+                <div class="table-responsive">
+                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>nome</th>
+                                <th>email</th>
+                                <th>tipo utilizador</th>
+                                <th>data registo</th>
+                                <th>data ultimo login</th>
+                                <th>Ação</th>
+                            </tr>
+                        </thead>  
+                        <tbody>
+                            {% for i in utilizadores %}
+                            <tr>
+                                <td>{{i.get('idUtilizador')}}</td>
+                                <td>{{i.get('nomeUtilizador')}}</td>
+                                <td>{{i.get('emailUtilizador')}}</td>
+                                {% for j in tipoutilizadores%}
+                                {% if i.get('idtipoUtilizador') == j.get('idTipoUtilizador')%}
+                                <td>{{j.get('nomeTipoUtilizador')}}</td>
+                                {% endif%}
+                                {% endfor%}
+                                <td>{{i.get('data_registo_Utilizador')}}</td>
+                                <td>{{i.get('data_ultima_entrada_Utilizador')}}</td>
+                                <td><a href="JavaScript:" class="" data-toggle="modal" data-target="#editarmodal" onclick="editUtilizador({{i}})"><i class="fas fa-edit fa-sm text-blue-50"></i></a>
+                                <a href="/apagar_util/{{i.get('idUtilizador')}}" class="" onclick="return confirm('Tem certeza que quer apagar?')"><i class="fas fa-trash fa-sm text-red-50" style="color:red;"></i></a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>   
+</div>
+
+
+
+
+
+
+<!-- Modal adicionar utilizador-->
+
+<div id="mymodal" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Adicionar utilizador</h5>
+			</div>
+			<div class="modal-body">
+				<form action="{{url_for('views.inserir_util')}}" method="POST">
+                    
+                    <div class="form-group">
+						<label>nome</label>
+						<input type="text" class="form-control" name="nome" required>
+					</div>
+					<div class="form-group">
+						<label>email</label>
+						<input type="hidden" name="id">
+						<input type="text" class="form-control" name="email" required>
+					</div>
+					<div class="form-group">
+						<label>password</label>
+						<input class="form-control" name="password" required>
+					</div>
+                    <div class="form-group">
+                        <label>tipo Utilizador</label>
+                        <select name="tipo" id="edittipo"  class="form-control">
+
+                            {% for tipoutilizador in tipoutilizadores %}
+
+                            <option value={{tipoutilizador.nomeTipoUtilizador}}>{{tipoutilizador.nomeTipoUtilizador}}</option>
+
+                            {% endfor %}
+
+                        </select>
+                    </div>
+
+					<div class="form-group">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+						<button class="btn btn-primary" type="submit">Guardar</button>
+						
+					</div>
+					
+
+				</form>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+<!--########################### MODAL EDITAR UTILIZADOR ###################################-->
+
+<div id="editarmodal" class="modal fade" role="dialog" style='width:100vw   ;'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">editar utilizador</h5>
+            </div>
+            <div class="modal-body">
+                <form action="{{url_for('views.atualizar_util')}}" method="POST">
+
+                    <div class="form-group">
+                        <label>nome</label>
+                        <input type="text" class="form-control" name="nome"  id="editNome" value="" required>
+                    </div>
+                    <div class="form-group">
+                        <label>email</label>
+                        <input type="text" class="form-control" name="email" id="editEmail" value="" required>
+                    </div>
+                    <div class="form-group">
+                        <label>tipo Utilizador</label>
+                        <select name="tipo" id="tipoutil"  class="form-control">
+
+                            {% for tipoutilizador in tipoutilizadores %}
+
+                            <option value={{tipoutilizador.idTipoUtilizador}}>{{tipoutilizador.nomeTipoUtilizador}}</option>
+
+                            {% endfor %}
+
+                        </select>
+                    </div>
+                    <input type="hidden" name="id" id="idUtilizador">
+
+                    <div class="form-group">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                        <button class="btn btn-primary" type="submit">Guardar</button>
+                        
+                    </div>
+                    
+                    
+                    
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function editUtilizador(utilizador) {
+        console.log(utilizador);
+        document.getElementById("editNome").value = utilizador.nomeUtilizador;
+        document.getElementById("idUtilizador").value = utilizador.idUtilizador;
+        document.getElementById("editEmail").value = utilizador.emailUtilizador;
+        document.getElementById("tipoutil").value = utilizador.idtipoUtilizador;
+
+    }
+
+    </script>
+
+{% endblock %}

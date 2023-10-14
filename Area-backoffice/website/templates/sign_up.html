@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title%}sign up{% endblock %}
+
+{% block content %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
+   </head>
+<body>
+  <div class="wrapper">
+    <h2>Registration</h2>
+    <form action="/signup" method="post">
+      <div class="input-box">
+        <input type="text" id="nome" name="nome" placeholder="Enter your name"><!--required-->
+      </div>
+      <div class="input-box">
+        <input type="email" id="email" name="email" placeholder="Enter your email"><!--required-->
+      </div>
+      <div class="input-box">
+        <input type="password" id="password" name="password" placeholder="Create password"><!--required-->
+      </div>
+      <div class="input-box">
+        <input type="password" id="password2" name="password2" placeholder="Confirm password"><!--required-->
+      </div><br>
+      <div class="policy">
+        <label>I accept all terms & condition</label>
+        <input type="checkbox", name="policy", value="policy">
+      </div>
+      <div class="input-box button">
+        <input type="Submit" value="Register Now">
+      </div>
+      <div class="text">
+        <h3>Already have an account? <a href="/login">Login now</a></h3>
+      </div>
+    </form>
+  </div>
+</body>
+
+{% endblock %}

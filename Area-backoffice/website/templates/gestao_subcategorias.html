@@ -1,0 +1,162 @@
+{% extends "home.html" %}
+{% block title%}home{% endblock %}
+
+{% block content %}
+
+
+
+
+<div clas="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card-body">
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <h4 class="h4 mb-0 text-gray-800">Gerir subcategorias</h4>
+                    <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-toggle="modal" data-target="#mymodal"><i class="fas fa-download fa-sm text-white-50"></i> Adicionar subcategoria</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card-body">
+                <div class="table-responsive">
+                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>nome</th>
+                                <th>categoria</th>
+                                <th>Ação</th>
+                                
+                            </tr>
+                        </thead>  
+                        <tbody>
+                            {% for subcategoria in subcategorias %}
+                            <tr>
+                                <td>{{subcategoria.get('idSubcategoria')}}</td>
+                                <td>{{subcategoria.get('nomeSubcategoria')}}</td>
+                                {% for categoria in categorias %}
+                                {% if subcategoria.get('idCategoria') == categoria.get('idCategoria')%}
+                                <td>{{categoria.get('nomeCategoria')}}</td>
+                                {% endif%}
+                                {% endfor%}
+                                <td><a href="JavaScript:" class="" data-toggle="modal" data-target="#editarmodal" onclick="editsubcategoria({{subcategoria}})"><i class="fas fa-edit fa-sm text-blue-50"></i></a>
+                                <a href="/apagar_subcategoria/{{subcategoria.get('idSubcategoria')}}" class="" onclick="return confirm('Tem certeza que quer apagar?')"><i class="fas fa-trash fa-sm text-red-50" style="color:red;"></i></a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>   
+</div>
+
+
+
+
+
+
+<!-- Modal adicionar utilizador-->
+
+<div id="mymodal" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Adicionar subcategorias</h5>
+			</div>
+			<div class="modal-body">
+				<form action="{{url_for('views.inserir_subcategoria')}}" method="POST">
+                    
+                    <div class="form-group">
+						<label>nome</label>
+						<input type="text" class="form-control" name="nome" required>
+					</div>
+                    <div class="form-group">
+                        <label>Categoria</label>
+                        <select name="categoria" id="categoria"  class="form-control">
+
+                            {% for categoria in categorias %}
+
+                            <option value={{categoria.nomeCategoria}}>{{categoria.nomeCategoria}}</option>
+
+                            {% endfor %}
+
+                        </select>
+                    </div>
+
+					<div class="form-group">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+						<button class="btn btn-primary" type="submit">Guardar</button>
+						
+					</div>
+					
+
+				</form>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+<!--########################### MODAL EDITAR UTILIZADOR ###################################-->
+
+<div id="editarmodal" class="modal fade" role="dialog" style='width:100vw   ;'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">editar utilizador</h5>
+            </div>
+            <div class="modal-body">
+                <form action="{{url_for('views.atualizar_subcategoria')}}" method="POST">
+
+                    <div class="form-group">
+                        <label>nome</label>
+                        <input type="text" class="form-control" name="nome"  id="editNome" value="" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Categoria</label>
+                        <select name="categoria" id="categoria"  class="form-control">
+
+                            {% for categoria in categorias %}
+
+                            <option value={{categoria.idCategoria}}>{{categoria.nomeCategoria}}</option>
+
+                            {% endfor %}
+
+                        </select>
+                    </div>
+                    <input type="hidden" name="id" id="idSubcategoria">
+
+                    <div class="form-group">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                        <button class="btn btn-primary" type="submit">Guardar</button>
+                        
+                    </div>
+                    
+                    
+                    
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function editsubcategoria(subcategoria) {
+        console.log(subcategoria);
+        document.getElementById("editNome").value = subcategoria.nomeSubcategoria;
+        document.getElementById("idSubcategoria").value = subcategoria.idSubcategoria;
+        document.getElementById("categoria").value = subcategoria.idCategoria;
+
+    }
+
+    </script>
+
+{% endblock %}

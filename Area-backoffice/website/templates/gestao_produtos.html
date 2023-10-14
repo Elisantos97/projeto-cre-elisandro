@@ -1,0 +1,50 @@
+{% extends "home.html" %}
+{% block title%}home{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h4 class="h4 mb-0 text-gray-800">Gerir produtos</h4>
+        <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-toggle="modal" data-target="#mymodal"><i class="fas fa-download fa-sm text-white-50"></i> Adicionar produto</a>
+    </div>
+    <div class="row">
+        <!-- Earnings (Monthly) Card Example -->
+        {% for produto in produtos %}
+      
+        <!-- Earnings (Monthly) Card Example -->
+          
+            <div class="col-xl-3 col-md-6 mb-4">
+                <a href="/produtos/{{produto.idProduto}}">
+                    <div class="card border-left-info shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1"><span>{{produto.nomeProduto}}</span>
+                                    </div>
+                                    <div class="row no-gutters align-items-center">
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body" style="background-image:url({{produto.get('imagemProduto')}}); background-size:contain; background-position:center; background-repeat:no-repeat; height:250px;">
+                        
+                        </div>
+                    </div>
+                </a>
+            </div>
+           
+        {% endfor %}
+        
+    </div>
+</div>
+
+    
+
+{% endblock %}

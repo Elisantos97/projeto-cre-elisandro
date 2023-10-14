@@ -1,0 +1,50 @@
+{% extends "home.html" %}
+{% block title%}home{% endblock %}
+
+{% block content %}
+
+
+
+
+<div clas="container">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Respostas desafios</h1>
+
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card-body">
+                <div class="table-responsive">
+                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                
+                                
+                                <th>email</th>
+                                <th>Resposta</th>
+                                <th>Foto</th>
+                                <th>Nota</th>
+
+                                
+                            </tr>
+                        </thead>  
+                        <tbody>
+                            {% for resposta in lista_resposta %}
+                            <tr>
+                                
+                                <td>{{resposta.get('emailCliente')}}</td>
+                                <td>{{resposta.get('respostaCliente')}}</td>
+                                <td><img style ="width:50px; height:50px;"  id="base64Image" src="{{resposta.get('imagemProduto')}}" alt="Base64 Image"></td>
+                                <td>{{resposta.get('nota')}}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>   
+</div>
+
+
+{% endblock %}

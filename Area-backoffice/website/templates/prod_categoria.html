@@ -1,0 +1,184 @@
+{% extends "home.html" %}
+{% block title%}home{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Gerir produtos</h1>
+        <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-toggle="modal" data-target="#mymodal"><i class="fas fa-download fa-sm text-white-50"></i> Novo registo</a>
+    </div>
+    <div class="row">
+        <!-- Earnings (Monthly) Card Example -->
+        {% for produto in produto %}
+        
+      
+        <!-- Earnings (Monthly) Card Example -->
+          
+            <div class="col-xl-3 col-md-6 mb-4">
+                <a href="/produtos/{{produto.idProduto}}">
+                    <div class="card border-left-info shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1"><span>{{produto.nomeProduto}}</span>
+                                    </div>
+                                    <div class="row no-gutters align-items-center">
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body" style="background-image:url({{produto.get('imagemProduto')}}); background-size:contain; background-position:center; background-repeat:no-repeat; height:250px;">
+                        
+                        </div>
+                    </div>
+                </a>
+            </div>
+           
+        {% endfor %}
+        
+    </div>
+</div>
+
+    
+<!-- Modal adicionar produto-->
+
+<div id="mymodal" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Novo registo</h5>
+			</div>
+			<div class="modal-body">
+				<form action="{{url_for('views.inserir_produto')}}" method="POST">
+
+
+                    <div class="form-group row">
+                        <div class="col">
+                            <label>Nome</label>
+                            <input type="text" class="form-control" name="nome" required>
+                        </div>
+                        <div class="col">
+                            <label>Categoria</label>
+                            <input name="categoria" id="categoria"  class="form-control", value={{nomecategoria}}>
+    
+
+                        </div>
+                        <div class="col">
+                            <label>Subcategoria</label>
+                            <select name="subcategoria" id="subcategoria"  class="form-control">
+    
+                                {% for subcategoria in subcategorias %}
+    
+                                <option value={{subcategoria.nomeSubcategoria}}>{{subcategoria.nomeSubcategoria}}</option>
+    
+                                {% endfor %}
+    
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col">
+                            <label>Descrição</label>
+                            <input type="text" class="form-control" name="descricao">
+                        </div>
+                        <div class="col">
+                            <label>Cor</label>
+                            <input type="text" class="form-control" name="cor">
+                        </div>
+                        <div class="col">
+                            <label>Preço</label>
+                            <input type="number" step="any" class="form-control" name="preco">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col">
+                            <label>Tipo</label>
+                            <input type="text" class="form-control" name="tipo">
+                        </div>
+                        <div class="col">
+                            <label>Espécie</label>
+                            <input type="text" class="form-control" name="especie">
+                        </div>
+                        <div class="col">
+                            <label>Material</label>
+                            <input type="text" class="form-control" name="material">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col">
+                            <label>Tamanho</label>
+                            <input type="text" class="form-control" name="tamanho">
+                        </div>
+                        <div class="col">
+                            <label>Quantidade</label>
+                            <input type="number" step="any" class="form-control" name="quantidade">
+                        </div>
+                        <div class="col">
+                            <label>Marca</label>
+                            <input type="text" class="form-control" name="marca">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col">
+                            <label>Referência</label>
+                            <input type="text" class="form-control" name="referencia">
+                        </div>
+                        <div class="col">
+                            <label for="img">inserir Imagem:</label>
+                            <input type="file" id="imagem" class="imagem" name="imagem" accept="image/*" onchange="handleFileChange()">
+                            <input type="hidden" id="imagemProduto" name="imagemProduto">
+                        </div>
+                    </div>
+                        <input type="hidden" name="id" id="idProduto">
+
+                    <div class="form-group row">
+                        <div class="col">
+                        </div>
+                        <div class="col">
+                        </div>
+                        <div class="col">
+                            <div class="form-group row">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                <button class="btn btn-primary" type="submit">Guardar</button>
+                            </div>
+                        </div>
+
+                    </div>
+				</form>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<script>
+
+
+   function handleFileChange(){
+    const fileInput = document.getElementById('imagem');
+    
+    const file = fileInput.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const base64String = e.target.result;
+            document.getElementById('imagemProduto').value = base64String;
+        };
+
+        reader.readAsDataURL(file);
+    } else {
+        fileInfo.textContent = "Nenhum arquivo selecionado.";
+    }
+   }
+
+    </script>   
+{% endblock %}

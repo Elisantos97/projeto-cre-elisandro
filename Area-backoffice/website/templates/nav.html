@@ -1,0 +1,103 @@
+<!-- Sidebar -->
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+    <!-- Sidebar - Brand -->
+
+
+    <!-- Divider -->
+    <hr class="sidebar-divider my-0">
+
+    <!-- Nav Item - Dashboard -->
+
+    <li class="nav-item active">
+        <a class="nav-link" href="/tipoutilizadores">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Gestão tipo utilizadores</span></a>
+    </li>
+    <li class="nav-item active">
+        <a class="nav-link" href="/utilizadores">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Gestão de utilizadores</span></a>
+    </li>
+    <li class="nav-item active">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProdutos"
+            aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fas fa-fw fa-cog"></i>
+            <span>Gestao Produtos</span>
+        </a>
+        <div id="collapseProdutos" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                {% for categoria in categorias %}
+                
+                    <a class="collapse-item" href="/produtos/{{categoria.nomeCategoria}}">{{categoria.nomeCategoria}}</a>
+
+                {% endfor %}
+            </div>
+        </div>
+    </li>
+    <li class="nav-item active">
+        <a class="nav-link" href="/categorias">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Gestão de categorias</span></a>
+    </li>
+    <li class="nav-item active">
+        <a class="nav-link" href="/subcategorias">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Gestão de subcategorias</span></a>
+    </li>
+    <li class="nav-item active">
+        <a class="nav-link" href="/clientes">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Gestão de clientes</span></a>
+    </li>
+
+    <li class="nav-item active">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsedesafio"
+            aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fas fa-fw fa-cog"></i>
+            <span>Gestao de Desafios</span>
+        </a>
+        <div id="collapsedesafio" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                
+                
+                <a class="collapse-item" href="/desafio">Desafios</a>
+                <a class="collapse-item" href="/resposta">Respostas</a>
+
+               
+            </div>
+        </div>
+    </li>
+
+    
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    
+    <!-- Nav Item - Pages Collapse Menu 
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+            aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fas fa-fw fa-cog"></i>
+            <span>Components</span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Custom Components:</h6>
+                <a class="collapse-item" href="buttons.html">Buttons</a>
+                <a class="collapse-item" href="cards.html">Cards</a>
+            </div>
+        </div>
+    </li> -->
+
+
+    <!-- Nav Item - Utilities Collapse Menu -->
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    
+
+
+</ul>
+<!-- End of Sidebar -->

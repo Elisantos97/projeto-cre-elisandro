@@ -1,0 +1,505 @@
+{% extends "home.html" %}
+{% block title%}home{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid" style="">
+    <div class="row">
+
+
+        
+
+        <ul class="nav nav-tabs" id="myTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#editarProduto" role="tab" aria-controls="tab1" aria-selected="true">Editar Produto</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="tab2-tab" data-toggle="tab" href="#gestaoInvetario" role="tab" aria-controls="tab2" aria-selected="false">Gestão de Inventário</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="tab3-tab" data-toggle="tab" href="#vendas" role="tab" aria-controls="tab3" aria-selected="false">Vendas</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="tab4-tab" data-toggle="tab" href="#produtosRelacionados" role="tab" aria-controls="tab4" aria-selected="false">Produtos Relacionados</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="tab5-tab" data-toggle="tab" href="#galeriaImagem" role="tab" aria-controls="tab5" aria-selected="false">Galeria Imagens</a>
+            </li>
+        </ul>
+        
+        <div class="tab-content" id="myTabsContent" style="padding-top:20px">
+            <!-- INICIO TAB EDITAR PRODUTO-->
+            <div class="tab-pane fade show active" id="editarProduto" role="tabpanel" aria-labelledby="tab1-tab">
+                <div class="row">
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Quantidade em stock: {{stock}}</h1>
+                        <a href="/apagar_produto/{{produto.get('idProduto')}}" class="btn btn-danger"onclick="return confirm('Tem certeza que quer apagar?')">Apagar</a></td>
+                    </div>
+                     <!-- start car show product image-->
+                    <div class="col-xl-4 col-lg-5">
+                        <div class="card shadow mb-4">
+                            <!-- Card Header - Dropdown -->
+                            <div
+                                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary"><span>{{produto.nomeProduto}}</span></h6>
+                               
+                            </div>
+                            <!-- Card Body -->
+                            <div class="card-body">
+                                <div class="card-body" style="background-image:url({{produto.get('imagemProduto')}}); background-size:contain; background-position:center; background-repeat:no-repeat; height:250px;">
+                                
+                                </div>  
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end car show product image-->
+
+                    <!-- Start form edit Product -->
+                    <div class="col-xl-8 col-lg-7">
+                        <div class="card shadow mb-4">
+                            <div
+                                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">Formulario Produto</h6>
+                            </div>
+                            <div class="card-body">
+                                <form action="{{url_for('views.atualizar_produto')}}" method="POST">
+                                    <div class="form-group row">
+                                        <div class="col">
+                                            <label>Nome</label>
+                                            <input type="text" class="form-control" name="nome" id="editNome" value="{{produto.nomeProduto}}" required>
+                                        </div>
+                                        <div class="col">
+                                            <label>Categoria</label>
+                                            <select name="categoria" id="categoria"  class="form-control">
+                    
+                                                {% for categoria in categorias %}
+                                                {% if produto.idcategoria == categoria.idCategoria%}
+                                                <option value="{{categoria.idCategoria}}" selected>{{categoria.nomeCategoria}}</option>
+                        
+                                                {% else %}
+                                                <option value="{{categoria.idCategoria}}">{{categoria.nomeCategoria}}</option>
+                                                {% endif%}
+                    
+                                                {% endfor %}
+                    
+                                            </select>
+                                        </div>
+                                        <div class="col">
+                                            <label>Subcategoria</label>
+                                            <select name="subcategoria" id="subcategoria"  class="form-control">
+                    
+                                                {% for subcategoria in subcategorias %}
+                                                {% if produto.idsubcategoria == subcategoria.idSubcategoria%}
+                                                <option value="{{subcategoria.idSubcategoria}}" selected>{{subcategoria.nomeSubcategoria}}</option>
+                        
+                                                {% else %}
+                    
+                                                <option value="{{subcategoria.idSubcategoria}}">{{subcategoria.nomeSubcategoria}}</option>
+                                                {% endif%}
+                                                {% endfor %}
+                    
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col">
+                                            <label>Descrição</label>
+                                            <input type="text" class="form-control" name="descricao" id="editDesc" value="{{produto.descricaoProduto}}">
+                                        </div>
+                                        <div class="col">
+                                            <label>Cor</label>
+                                            <input type="text" class="form-control" name="cor" id="editCor" value="{{produto.corProduto}}">
+                                        </div>
+                                        <div class="col">
+                                            <label>Preço</label>
+                                            <input type="number" class="form-control" name="preco" id="editPreco" value="{{produto.corProduto}}">
+                                        </div>
+                                    </div>
+                    
+                                    <div class="form-group row">
+                                        <div class="col">
+                                            <label>Tipo</label>
+                                            <input type="text" class="form-control" name="tipo" id="editTipo" value="{{produto.tipoProduto}}">
+                                        </div>
+                                        <div class="col">
+                                            <label>Espécie</label>
+                                            <input type="text" class="form-control" name="especie" id="editEsp" value="{{produto.especieProduto}}">
+                                        </div>
+                                        <div class="col">
+                                            <label>Material</label>
+                                            <input type="text" class="form-control" name="material" id="editMat" value="{{produto.materialProduto}}">
+                                        </div>
+                                    </div>
+                    
+                                    <div class="form-group row">
+                                        <div class="col">
+                                            <label>Tamanho</label>
+                                            <input type="text" class="form-control" name="tamanho" id="editTam" value="{{produto.tamanhoProduto}}">
+                                        </div>
+                                    
+                                        <div class="col">
+                                            <label for="img">inserir Imagem:</label>
+                                            <input type="file" id="imagem" class="form-control" name="imagem" accept="image/*" onchange="handleFileChange()">
+                                            <input type="hidden" id="imagemProduto" name="imagemProduto">
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="id" id="idproduto" value="{{produto.idProduto}}">
+                                    
+                                    <div class="form-group row">
+                    
+                                        <div class="col">
+                                            <div class="modal-footer">
+                                                <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button> -->
+                                                <button class="btn btn-primary" type="submit">Guardar</button>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                    
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Form edit Product -->
+                </div>
+               
+            </div>
+            <!-- FIM TAB EDITAR PRODUTO-->
+
+            <!-- INICIO TAB GESTAO INVENTARIO-->
+            <div class="tab-pane fade" id="gestaoInvetario" role="tabpanel" aria-labelledby="tab2-tab">
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <h6 class="h6 mb-0 text-gray-800"></h6>
+                    <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-toggle="modal" data-target="#mymodal"><i class="fas fa-download fa-sm text-white-50"></i> Novo registo </a>
+                </div>
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                               <thead>
+                                   <tr>
+                                       <th>id</th>
+                                       <th>Data de entrada</th>
+                                       <th>Fornecedor</th>
+                                       <th>Quantidade</th>
+                                       <th>Ação</th>
+                       
+                                   </tr>
+                               </thead>  
+                               <tbody>
+   
+                                   {% for inventario in inventarios %}
+                                   {% if inventario.get('idproduto') == produto.idProduto %}
+                                   <tr>
+                                       <td>{{inventario.get('idInventario')}}</td>
+                                       <td>{{inventario.get('dataEntrada')}}</td>
+                                       <td>{{inventario.get('fornecedor')}}</td>
+                                       <td>{{inventario.get('quantidade')}}</td>
+                                       <td><a href="JavaScript:" class="" data-toggle="modal" data-target="#editarmodal" onclick="editinventario({{inventario}})"><i class="fas fa-edit fa-sm text-blue-50"></i></a>
+                                       <!-- <a href="/apagar_inventario/{{inventario.get('idInventario')}}" class="" onclick="return confirm('Tem certeza que quer apagar?')"><i class="fas fa-trash fa-sm text-red-50" style="color:red;" ></i></a></td> -->
+                                       
+                                   </tr>
+                                   {% endif %}
+                                   {% endfor %}
+                                  
+                               </tbody>
+                           </table>
+                       </div>
+                    </div>
+                </div>
+            </div>
+             <!-- FIM TAB GESTAO INVENTARIO-->
+            
+             <!-- INICIO TAB VENDAS-->
+             <div class="tab-pane fade" id="vendas" role="tabpanel" aria-labelledby="tab3-tab">
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <h6 class="h6 mb-0 text-gray-800"></h6>
+                    <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-toggle="modal" data-target="#mymodal"><i class="fas fa-download fa-sm text-white-50"></i> Novo registo </a>
+                </div>
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                               <thead>
+                                   <tr>
+                                       <th>Quatidade</th>
+                                       <th>Preço total</th>
+                                       <th>Iva</th>
+                                       <th>Data da venda</th>
+                       
+                                   </tr>
+                               </thead>  
+                               <tbody>
+                                    {% for venda in vendas %}
+                                        {% if produto.get("idProduto")==venda.get("idProduto") %}
+                                            <tr>
+                                                <td>{{venda.get('quantidade')}}</td>
+                                                <td>{{venda.get('precototal')}}</td>
+                                                <td>{{venda.get('iva')}}</td>
+                                                <td>{{venda.get('dataVenda')}}</td>
+                                            </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                               </tbody>
+                           </table>
+                       </div>
+                    </div>
+                </div>
+             </div>
+             <!-- FIM TAB VENDAS-->
+
+            <!-- INICIO TAB PRODUTO RELACIONADO-->
+            <div class="tab-pane fade" id="produtosRelacionados" role="tabpanel" aria-labelledby="tab4-tab">
+
+                <div class="container-fluid">
+                    <div class="row">
+                
+                        {% for produto_relacionado in produtos_relacionados %}
+                            {% if produto_relacionado.idProduto == produto.idProduto %}
+                                {% for prod in produtos %}
+                                    {% if prod.idProduto == produto_relacionado.idProduto_relacionado %}
+
+
+
+                                        <div class="col-xl-3 col-md-6 mb-4">
+                                            <a href="/produtos/{{prod.idProduto}}">
+                                                <div class="card border-left-info shadow h-100 py-2">
+                                                    <div class="card-body">
+                                                        <div class="row no-gutters align-items-center">
+                                                            <div class="col mr-2">
+                                                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1"><span>{{prod.nomeProduto}}</span>
+                                                                </div>
+                                                                <div class="row no-gutters align-items-center">
+                                                                    
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-auto">
+                                                                
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body" style="background-image:url({{prod.get('imagemProduto')}}); background-size:contain; background-position:center; background-repeat:no-repeat; height:250px;">
+                                                    
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        
+                                    {% endif %}
+                                {% endfor%}
+                            {% endif %}
+                        {% endfor%}
+                    </div>
+                </div>
+            </div>
+             <!-- FIM TAB PRODUTO RELACIONADO-->
+
+             <!-- INÍCIO TAB GALERIA IMAGEM-->
+
+             <div class="tab-pane fade" id="galeriaImagem" role="tabpanel" aria-labelledby="tab5-tab">
+                <div class="row">
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h6 class="h6 mb-0 text-gray-800"></h6>
+                        <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-toggle="modal" data-target="#mymodalimg"><i class="fas fa-download fa-sm text-white-50"></i> Inserir imagem </a>
+                    </div>
+                    {% for imagem in imagens %}
+        
+      
+                    <!-- Earnings (Monthly) Card Example -->
+                      
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            
+                                <div class="card border-left-info shadow h-100 py-2">
+                                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                                        <h1 class="h3 mb-0 text-gray-800"></h1>
+                                        <a href="/apagar_imagem/{{imagem.get('idGaleria')}}" class="btn btn-danger"onclick="return confirm('Tem certeza que quer apagar?')">Apagar</a></td>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+             
+                                            </div>
+                                            <div class="col-auto">
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body" style="background-image:url({{imagem.get('imagem')}}); background-size:contain; background-position:center; background-repeat:no-repeat; height:250px;">
+                                    
+                                    </div>
+                                    
+                                </div>
+                         
+                        </div>
+                       
+                    {% endfor %}
+                </div>
+            </div>
+            <!-- FIM TAB GALERIA IMAGEM-->
+        </div>
+    </div>
+
+</div>   
+       
+
+
+<!--########################### MODAL REGISTAR INVENTARIO ###################################-->
+
+<div id="mymodal" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Novo registo</h5>
+			</div>
+			<div class="modal-body">
+				<form action="{{url_for('views.inserir_inventario')}}" method="POST">
+                    <div class="form-group row">
+                        <div class="col">
+                            <label>fornecedor</label>
+                            <input type="text" class="form-control" name="fornecedor">
+                        </div>
+                        <div class="col">
+                            <label>Quantidade</label>
+                            <input type="number" class="form-control" name="quantidade">
+                        </div>
+                    </div>
+    
+                    <input type="hidden" name="id" id="id" value="{{produto.idProduto}}">
+                    
+                    <div class="form-group row">
+    
+                        <div class="col">
+                            <div class="modal-footer">
+                                <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button> -->
+                                <button class="btn btn-primary" type="submit">Guardar</button>
+                            </div>
+                            
+                        </div>
+                    </div>   
+				</form>
+
+			</div>
+		</div>
+	</div>
+</div>       
+
+<!--########################### MODAL EDITAR INVENTARIO ###################################-->
+
+<div id="editarmodal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">editar Inventario</h5>
+            </div>
+            <div class="modal-body">
+                <form action="{{url_for('views.atualizar_inventario')}}" method="POST">
+
+                    <div class="col">
+                        <label>fornecedor</label>
+                        <input type="text" class="form-control" name="fornecedor" id="editfornecedor" value="" required>
+                    </div>
+                    <div class="col">
+                        <label>Quantidade</label>
+                        <input type="number" class="form-control" name="quantidade" id="editquantidade" value="" required>
+                    </div>
+                </div>
+                    <input type="hidden" name="produto" id="idproduto" value="{{produto.idProduto}}">
+                    <input type="hidden" name="id" id="idinventario" value="">
+
+                    <div class="form-group">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                        <button class="btn btn-primary" type="submit">Guardar</button>
+                        
+                    </div>
+                    
+                    
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--########################### MODAL Inserir Imagem ###################################-->
+
+<div id="mymodalimg" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Novo registo</h5>
+			</div>
+			<div class="modal-body">
+				<form action="{{url_for('views.inserir_imagem')}}" method="POST">
+                    <div class="form-group row">
+                        <div class="col">
+                            <label for="img">inserir Imagem:</label>
+                            <input type="file" id="imagem2" class="imagem" name="imagem" accept="image/*" onchange="handleFileChange2()" required>
+                            <input type="hidden" id="imagemProduto2" name="imagemProduto">
+                            <input type="hidden" id="idproduto" name="idproduto" value="{{produto.idProduto}}">
+                        </div>
+                        <div class="col">
+                            <div class="modal-footer">
+                                <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button> -->
+                                <button class="btn btn-primary" type="submit">Guardar</button>
+                            </div>
+                        </div>
+                    </div>
+
+				</form>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+    <script>
+        function editinventario(inventario) {
+            document.getElementById("editfornecedor").value = inventario.fornecedor;
+            document.getElementById("editquantidade").value = inventario.quantidade;
+            document.getElementById("idinventario").value = inventario.idInventario;
+    
+    
+        }
+
+       function handleFileChange(){
+        const fileInput = document.getElementById('imagem');
+        
+        const file = fileInput.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const base64String = e.target.result;
+                document.getElementById('imagemProduto').value = base64String;
+            };
+    
+            reader.readAsDataURL(file);
+        } else {
+            fileInfo.textContent = "Nenhum arquivo selecionado.";
+        }
+       }
+
+
+       function handleFileChange2(){
+        const fileInput = document.getElementById('imagem2');
+        
+        const file = fileInput.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const base64String = e.target.result;
+                document.getElementById('imagemProduto2').value = base64String;
+            };
+    
+            reader.readAsDataURL(file);
+        } else {
+            fileInfo.textContent = "Nenhum arquivo selecionado.";
+        }
+       }
+    
+        </script>   
+
+{% endblock %}

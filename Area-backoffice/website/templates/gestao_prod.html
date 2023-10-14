@@ -1,0 +1,311 @@
+
+{% extends "home.html" %}
+{% block title%}home{% endblock %}
+
+{% block content %}
+
+
+
+
+<div clas="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card-body">
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <h1 class="h3 mb-0 text-gray-800">Gerir produtos</h1>
+                    <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-toggle="modal" data-target="#mymodal"><i class="fas fa-download fa-sm text-white-50"></i> Adicionar produto</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card-body">
+                <div class="table-responsive">
+                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                               
+                                <th>Nome</th>
+                                <th>Categoria</th>
+                                <th>Cor</th>
+                                <th>Preço</th>
+                                <th>Tipo</th>
+                                <th>Tamanho</th>
+                                <th>Quantidade</th>
+                                <th>Imagem</th>
+                                <th>Ação</th>
+                            </tr>
+                        </thead>  
+                        <tbody>
+                            {% for produto in produtos %}
+
+                           
+
+                            <tr>
+                               
+                                <td>{{produto.get('nomeProduto')}}</td>
+                                <td>{{produto.get('categoriaProduto')}} >  {{produto.get('subcategoriaProduto')}} </td>
+                                <td>{{produto.get('corProduto')}}</td>
+                                <td>{{produto.get('precoProduto')}}</td>
+                                <td>{{produto.get('tipoProduto')}}</td>
+                                <td>{{produto.get('tamanhoProduto')}}</td>
+                                <td>{{produto.get('quantidadeProduto')}}</td>
+                                <td><img style ="width:50px; height:50px;"  id="base64Image" src="{{produto.get('imagemProduto')}}" alt="Base64 Image"></td>
+                                <td><a href="JavaScript:" class="" data-toggle="modal" data-target="#editarmodal" onclick="editProduto({{produto}})"><i class="fas fa-edit fa-sm text-blue-50"></i></a>
+                                <a href="/apagar/{{produto.get('idProduto')}}" class="" onclick="return confirm('Tem certeza que quer apagar?')"><i class="fas fa-trash fa-sm text-red-50" style="color:red;"></i></a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>   
+</div>
+
+
+
+
+
+
+<!-- Modal adicionar produto-->
+
+<div id="mymodal" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Adicionar produto</h5>
+			</div>
+			<div class="modal-body">
+				<form action="{{url_for('views.inserir')}}" method="POST">
+
+
+                    <div class="form-group row">
+                        <div class="col">
+                            <label>Nome</label>
+                            <input type="text" class="form-control" name="nome" required>
+                        </div>
+                        <div class="col">
+                            <label>Categoria</label>
+                            <input type="text" class="form-control" name="categoria" required>
+                        </div>
+                        <div class="col">
+                            <label>Subcategoria</label>
+                            <input type="text" class="form-control" name="subcategoria">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col">
+                            <label>Descrição</label>
+                            <input type="text" class="form-control" name="descricao">
+                        </div>
+                        <div class="col">
+                            <label>Cor</label>
+                            <input type="text" class="form-control" name="cor">
+                        </div>
+                        <div class="col">
+                            <label>Preço</label>
+                            <input type="number" class="form-control" name="preco">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col">
+                            <label>Tipo</label>
+                            <input type="text" class="form-control" name="tipo">
+                        </div>
+                        <div class="col">
+                            <label>Espécie</label>
+                            <input type="text" class="form-control" name="especie">
+                        </div>
+                        <div class="col">
+                            <label>Material</label>
+                            <input type="text" class="form-control" name="material">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col">
+                            <label>Tamanho</label>
+                            <input type="text" class="form-control" name="tamanho">
+                        </div>
+                        <div class="col">
+                            <label>Quantidade</label>
+                            <input type="number" class="form-control" name="quantidade">
+                        </div>
+                        <div class="col">
+                            <label>Marca</label>
+                            <input type="text" class="form-control" name="marca">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col">
+                            <label for="img">inserir Imagem:</label>
+                            <input type="file" id="imagem" class="imagem" name="imagem" accept="image/*" onchange="handleFileChange()">
+                            <input type="hidden" id="imagemProduto" name="imagemProduto">
+                    </div>
+                    <input type="hidden" name="id" id="idProduto">
+
+                    <div class="form-group row">
+                        <div class="col">
+                        </div>
+                        <div class="col">
+                        </div>
+                        <div class="col">
+                            <div class="form-group row">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                <button class="btn btn-primary" type="submit">Guardar</button>
+                            </div>
+                        </div>
+
+                    </div>
+				</form>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+<!--########################### MODAL EDITAR PRODUTO ###################################-->
+
+<div id="editarmodal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">editar produto</h5>
+            </div>
+            <div class="modal-body">
+                <form action="{{url_for('views.atualizar')}}" method="POST">
+
+                    <div class="form-group row">
+                        <div class="col">
+                            <label>Nome</label>
+                            <input type="text" class="form-control" name="nome" id="editNome" value="" required>
+                        </div>
+                        <div class="col">
+                            <label>Categoria</label>
+                            <input type="text" class="form-control" name="categoria" id="editCateg" value="" required>
+                        </div>
+                        <div class="col">
+                            <label>Subcategoria</label>
+                            <input type="text" class="form-control" name="subcategoria" id="editSubcateg" value="">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col">
+                            <label>Descrição</label>
+                            <input type="text" class="form-control" name="descricao" id="editDesc" value="">
+                        </div>
+                        <div class="col">
+                            <label>Cor</label>
+                            <input type="text" class="form-control" name="cor" id="editCor" value="">
+                        </div>
+                        <div class="col">
+                            <label>Preço</label>
+                            <input type="number" class="form-control" name="preco" id="editPreco" value="">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col">
+                            <label>Tipo</label>
+                            <input type="text" class="form-control" name="tipo" id="editTipo" value="">
+                        </div>
+                        <div class="col">
+                            <label>Espécie</label>
+                            <input type="text" class="form-control" name="especie" id="editEsp" value="">
+                        </div>
+                        <div class="col">
+                            <label>Material</label>
+                            <input type="text" class="form-control" name="material" id="editMat" value="">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col">
+                            <label>Tamanho</label>
+                            <input type="text" class="form-control" name="tamanho" id="editTam" value="">
+                        </div>
+                        <div class="col">
+                            <label>Quantidade</label>
+                            <input type="number" class="form-control" name="quantidade" id="editQuant" value="">
+                        </div>
+                        <div class="col">
+                            <label>Marca</label>
+                            <input type="text" class="form-control" name="marca" id="editMarca" value="">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col">
+                            <label>Imagem</label>
+                            <input type="text" class="form-control" name="imagem" id="editImag" value="">
+                        </div>
+                    </div>
+                    <input type="hidden" name="id" id="idproduto">
+                    
+                    <div class="form-group row">
+                        <div class="col">
+                        </div>
+                        <div class="col">
+                        </div>
+                        <div class="col">
+                            <div class="form-group row">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                <button class="btn btn-primary" type="submit">Guardar</button>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function editProduto(produto) {
+        //console.log(produto);
+        document.getElementById("idproduto").value = produto.idProduto;
+        document.getElementById("editNome").value = produto.nomeProduto;
+        document.getElementById("editCateg").value = produto.categoriaProduto;
+        document.getElementById("editSubcateg").value = produto.subcategoriaProduto;
+        document.getElementById("editDesc").value = produto.descricaoProduto;
+        document.getElementById("editCor").value = produto.corProduto;
+        document.getElementById("editPreco").value = produto.precoProduto;
+        document.getElementById("editTipo").value = produto.tipoProduto;
+        document.getElementById("editEsp").value = produto.especieProduto;
+        document.getElementById("editMat").value = produto.materialProduto;
+        document.getElementById("editTam").value = produto.tamanhoProduto;
+        document.getElementById("editQuant").value = produto.quantidadeProduto;
+        document.getElementById("editMarca").value = produto.marcaProduto;
+        document.getElementById("editImag").value = produto.imagemProduto;
+        //document.getElementById("edittipo").value = utilizador.idtipoUtilizador;
+
+    }
+
+   function handleFileChange(){
+    const fileInput = document.getElementById('imagem');
+    
+    const file = fileInput.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const base64String = e.target.result;
+            document.getElementById('imagemProduto').value = base64String;
+        };
+
+        reader.readAsDataURL(file);
+    } else {
+        fileInfo.textContent = "Nenhum arquivo selecionado.";
+    }
+   }
+
+    </script>       
+
+
+{% endblock %}
